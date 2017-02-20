@@ -33,3 +33,13 @@ Generally, the script works in following 3 scenarios:
 •	Generate new VHD(X) file (MBR or GPT partition) and apply Windows Server OS from ISO/WIM.
 •	Customize computer name and AutoLogon option (into Unattend.xml) file, and apply it to VHD(X).
 •	Enable NativeBoot in physical server (auto restart if enabled).  
+
+Dependency
+============
+The script depends on the script 'Convert-WindowsImage.ps1' from Microsoft. The script 'Convert-WindowsImage.ps1' provides basic functions to convert ISO or WIM image to VHD(X) files. 
+
+'DeployVHD' uses version "10.0.9000.0.fbl_core1_hyp_dev(mikekol).141224-3000.amd64fre". 
+
+
+Latest version can be found at:
+http://gallery.technet.microsoft.com/scriptcenter/Convert-WindowsImageps1-0fe23a8f
