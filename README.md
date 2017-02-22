@@ -1,7 +1,7 @@
 # DeployVHD
-Readme: [English](https://github.com/wellsluo/DeployVHD/blob/master/README.md) | [中文](https://github.com/wellsluo/DeployVHD/blob/master/README-CN.md)
+README: [English](https://github.com/wellsluo/DeployVHD/blob/master/README.md) | [中文](https://github.com/wellsluo/DeployVHD/blob/master/README-CN.md)
 
-PowerShell script to deploy new VHD(X) file with un-attend information from Windows Server/Desktop image file ISO/WIM.
+PowerShell script to deploy new VHD(X) file  from Windows Server/Desktop image file ISO/WIM, or edit existed VHD(X) file, and configure un-attend information.
 
 ##Motivation
 
@@ -23,9 +23,10 @@ This project is licensed under the MIT License - see the LICENSE.md file for det
 
 ##Features
 
-Generally, the script works in following 3 scenarios:
+Generally, the script works in following scenarios:
 - Generate new VHD(X) file (MBR or GPT partition) and apply Windows Server OS from ISO/WIM as template file for both virtual machine and physical machine (boot from VHD).
 - Customize un-attend options (into Unattend.xml), and apply it to VHD(X).
+- Use the VHD(X) file as system virtual disk in a virtual machine.
 - Enable boot from VHD (NativeBoot) in physical server (auto restart if enabled).  
 
 So the following features are supported:
@@ -33,7 +34,7 @@ So the following features are supported:
 
 - Generate VHD(X) file from Windows Server ISO/WIM image file.
 	+ Create MBR or GUID partition of VHD(X) files.
-	+ Set VHD(X) file size and partition format (MBR or GUID).
+	+ Set VHD(X) file size .
 	+ Select different Edition of Windows Server/Windows Desktop.
 
 
@@ -90,6 +91,11 @@ You can run the script on following OS versions and PowerShell version:
 Put the script and all other files under a folder. Run PowerShell command window in "Elevated" mode. Then go to the folder to run it. 
 
 ###EXAMPLE
+
+```PowerShell
+    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX -SourcePath D:\foo\install.wim 
+```
+
 Create a 30GB dynamically expanding Datacenter edition VHDX in the current folder from D:\foo\install.wim. File name is WinServer2016.VHDX. 
 
 Unattend.xml will be applied with default settings:
@@ -98,11 +104,6 @@ Unattend.xml will be applied with default settings:
 - RemoteDesktop: Enabled
 - Firewall: Opened
 
-
-
-```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX -SourcePath D:\foo\install.wim 
-```
 
 ###EXAMPLE
 
