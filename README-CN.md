@@ -1,7 +1,7 @@
 # DeployVHD
 README: [English](https://github.com/wellsluo/DeployVHD/blob/master/README.md) | [中文](https://github.com/wellsluo/DeployVHD/blob/master/README-CN.md)
 
-本项目是开发 PowerShell 脚本，用于从 Windows Server/Windows Desktop 的 ISO/WIM 安装镜像快速部署新的Windows Server/Windows Desktop操作系统的 VHD(X) 文件，或者编辑现有的 VHD(X)文件，并配置无人值守安装选项。
+本项目开发 PowerShell 脚本 DeployVHD.ps1，用于从 Windows Server/Windows Desktop 的 ISO/WIM 安装镜像中快速部署带有 Windows Server/Windows Desktop 操作系统的 VHD(X) 文件；或者编辑现有的 VHD(X)文件，并配置无人值守安装选项。
 
 ##缘起
 Windows 10 insider program 应该是吸引了成千上万用户、具有最广泛用户参与的软件验证项目了。针对 Windows Server，也有类似的项目，如针对关键企业用户的 "Continuous Customer Engagement Program" 项目。 两个项目都会定期发布产品新的ISO镜像，比如可能是每周会有。如此频繁的镜像发布，对于用户来说要跟上步伐去全新安装每次发布的不同版本的 build 是一件很耗时耗力的事情，当然也很 boring。 
@@ -29,7 +29,7 @@ Windows 10 insider program 应该是吸引了成千上万用户、具有最广�
 
 脚本支持以下一些特性：
 
-- 从Windows Server ISO/WIM 镜像文件产生 VHD(X) 文件。
+- 从 Windows Server ISO/WIM 镜像文件产生 VHD(X) 文件。
 	+ 建立 MBR 或者 GUID 分区。
     + 制定 VHD(X) 文件磁盘的容量。
     + 选择 Windows Server/Windows Desktop ISO/WIM 镜像文件中系统的不同版本。
@@ -88,74 +88,80 @@ Windows 10 insider program 应该是吸引了成千上万用户、具有最广�
 ##使用方式
 将所有文件复制到同一个文件夹，然后以管理员方式启动 PowerShell 控制台窗口，转到脚本的目录下，运行即可。 
 
-###例子
+文件说明参考下表：
+
+文件名称 | 描述 | 备注
+------------ | ------------- | ------------
+Convert-WindowsImage.ps1 | 基础脚本 | 提供从镜像文件到 VHD(X) 文件的函数
+DeployVHD.ps1 | 主要脚本  | 
+Sample-BootFromNewVHD.ps1 | 示例脚本  | 用于在物理机中启用 Boot from VHD 功能
+Sample-Create-OSVHD.ps1 | 示例脚本  | 将 ISO 批量转换为 VHD(X) 模板文件
+unattend_amd64_Client.xml | 无人值守文件 | 桌面端版本
+unattend_amd64_Server.xml | 无人值守文件 | 服务器端版本
+
+
+###示例
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX -SourcePath D:\foo\install.wim 
+    .\Deploy-VHD.ps1 -SourcePath D:\ISO\Win2016.iso -CreateVHDTemplate
 ```
 
-Create a 30GB dynamically expanding Datacenter edition VHDX in the current folder from D:\foo\install.wim. File name is WinServer2016.VHDX. 
+此示例是从 D:\ISO\Win2016.ISO 镜像生成容量为 100GB，包含Windows Server 2016 Datacenter 版本，并且是动态扩展的 VHDX 文件作为 VHDX 文件模板，文件名为 WinServer2016.Hyper-V.100GB.GUID.VHDX （文件命名约定为 SourcePath.[Hyper-V].VHDSize.VHDPartitionStyle.VHDFormat），存放于运行脚本的当前目录， 并应用无人值守配置文件Unattend.xml。具体配置如下：
 
-Unattend.xml will be applied with default settings:
-- Computer Name:  Same as host
-- AutoLogon: Disabled
-- RemoteDesktop: Enabled
-- Firewall: Opened
+	- Computer Name:  在系统第一次启动时随机产生 
+	- AutoLogon:      禁用
+	- RemoteDesktop:  启用
+	- Firewall:       打开
+	
 
-
-###例子
+###示例
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX -SourcePath D:\foo\Win2016.iso 
+    .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX -SourcePath D:\ISO\Win2016.iso 
 ```
 
-This command will parse the ISO file D:\foo\Win2016.iso and try to locate \sources\install.wim.  If that file is found, it will be used to create a dynamically-expanding 30GB VHDX containing the Datacenter SKU, and will be named WinServer2016.vhdx
+此示例是从 D:\ISO\Win2016.ISO 镜像生成容量为 100GB，包含Windows Server 2016 Datacenter 版本，并且是动态扩展的 VHDX 文件 WinServer2016.VHDX，存放于运行脚本的当前目录， 并应用无人值守配置文件Unattend.xml。具体配置如下：
 
-###例子
+	- Computer Name:  与运行脚本的计算机相同 
+	- AutoLogon:      禁用
+	- RemoteDesktop:  启用
+	- Firewall:       打开
+
+###示例
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX -SourceVHD D:\foo\Win2016-Template.vhdx 
+    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX -SourceVHD D:\VHDX\Win2016-Template.vhdx 
 ```
 
-This command will use VHDX file D:\foo\Win2016-Template.vhdx and copy as WinServer2016.VHDX.
-Unattend.xml will be applied with default configurations:
-   Computer Name:  Same as host
-   AutoLogon: Disabled
-   RemoteDesktop: Enabled
-   Firewall: Opened
-
-###例子
+此示例复制 D:\VHDX\Win2016-Template.vhdxand 文件为当前运行脚本目录下的 WinServer2016.VHDX 文件，并应用默认的无人值守配置文件Unattend.xml。
+   
+###示例
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX  
+    .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX  
 ```
 
-This command will edit WinServer2016.VHDX directly with default un-attend configurations.
+此示例直接编辑当前目录下的 WinServer2016.VHDX 文件，应用默认的无人值守配置文件Unattend.xml。
 
-###例子
+
+###示例
 
 ```PowerShell
     .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX  -ComputerName Test-01 -AutoLogon
 ```
 
-This command will edit WinServer2016.VHDX, set the computer name to 'Test-01', and enable Autologon.
+此示例直接编辑当前目录下的 WinServer2016.VHDX 文件，设置 Computer Name 为 'Test-01'，并启用 "自动登录" 功能。
 
 
-###例子
+###示例
 
 ```PowerShell
     .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX  -EnableNativeBoot -Restart
 ```
 
-This command will edit WinServer2016.VHDX file, and enable boot from VHD, then system restarts in 30 seconds. 
+此示例直接编辑当前目录下的 WinServer2016.VHDX 文件，并启用 "Boot from VHD" 功能，系统将在 30 秒后重新启动。计算机名称与运行脚本的计算机相同。 
 
-###例子
 
-```PowerShell
-    .\Deploy-VHD.ps1 -SourcePath D:\foo\Win2016.iso -CreateTemplate
-```
-
-This command will parse the ISO file D:\foo\Win2016.iso and try to locate \sources\install.wim.  If that file is found, it will be used to create a 300GB dynamically-expanding  VHDX containing the Datacenter SKU, and will be named WinServer2016-Template.vhdx. Computer name will be generated randomly on first booting up.
 
 
 
