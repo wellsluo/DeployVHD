@@ -100,9 +100,9 @@ Put the script and all other files under a folder. Run PowerShell command window
 This command will create a 100GB dynamically-expanding VHDX containing the Datacenter SKU, and will be named as "WinServer2016.Hyper-V.100GB.GUID.VHDX" (name convension is "SourcePath.[Hyper-V].VHDSize.VHDPartitionStyle.VHDFormat"). Computer name will be generated randomly on first booting up. Default un-attend configurations are applied as following:
 
 	- Computer Name:  Random name on first booting
-	- AutoLogon: Disabled
-	- RemoteDesktop: Enabled
-	- Firewall: Opened
+	- AutoLogon:      Disabled
+	- RemoteDesktop:  Enabled
+	- Firewall:       Opened
 
 ###EXAMPLE
 
@@ -114,9 +114,9 @@ This command will create a dynamically-expanding 100GB VHDX containing the Datac
 Unattend.xml will be applied with default configurations:
 
 	- Computer Name:  Same as host
-	- AutoLogon: Disabled
-	- RemoteDesktop: Enabled
-	- Firewall: Opened
+	- AutoLogon:      Disabled
+	- RemoteDesktop:  Enabled
+	- Firewall:       Opened
 
 
 ###EXAMPLE
