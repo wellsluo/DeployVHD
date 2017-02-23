@@ -130,7 +130,7 @@ unattend_amd64_Server.xml | 无人值守文件 | 服务器端版本
 ###示例
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX -SourceVHD D:\VHDX\Win2016-Template.vhdx 
+    .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX -SourceVHD D:\VHDX\Win2016-Template.vhdx 
 ```
 
 此示例复制 D:\VHDX\Win2016-Template.vhdxand 文件为当前运行脚本目录下的 WinServer2016.VHDX 文件，并应用默认的无人值守配置文件Unattend.xml。
@@ -147,7 +147,7 @@ unattend_amd64_Server.xml | 无人值守文件 | 服务器端版本
 ###示例
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX  -ComputerName Test-01 -AutoLogon
+    .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX  -ComputerName Test-01 -AutoLogon
 ```
 
 此示例直接编辑当前目录下的 WinServer2016.VHDX 文件，设置 Computer Name 为 'Test-01'，并启用 "自动登录" 功能。
@@ -156,7 +156,7 @@ unattend_amd64_Server.xml | 无人值守文件 | 服务器端版本
 ###示例
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX  -EnableNativeBoot -Restart
+    .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX  -EnableNativeBoot -Restart
 ```
 
 此示例直接编辑当前目录下的 WinServer2016.VHDX 文件，并启用 "Boot from VHD" 功能，系统将在 30 秒后重新启动。计算机名称与运行脚本的计算机相同。 
