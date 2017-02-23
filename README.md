@@ -91,6 +91,19 @@ You can run the script on following OS versions and PowerShell version:
 ##Usage
 Put the script and all other files under a folder. Run PowerShell command window in "Elevated" mode. Then go to the folder to run it. 
 
+File list：
+
+Name | Description | Memo
+------------ | ------------- | ------------
+Convert-WindowsImage.ps1 | Dependency | Provide function to generate VHD(X) from ISO/WIM image
+DeployVHD.ps1 | Main script  | 
+Example-BootFromNewVHD.ps1 | Example script  | Enable boot from vhd in physical machine
+Example-Create-OSVHD.ps1 | Example script  | Generate multiple VHD(X) files from ISO at one running time
+unattend_amd64_Client.xml | Un-attend template | for Windows Desktop
+unattend_amd64_Server.xml | Un-attend template | for Windows Server
+
+
+
 ###EXAMPLE
 
 ```PowerShell
