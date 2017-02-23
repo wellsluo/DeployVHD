@@ -1,11 +1,11 @@
 # DeployVHD
 README: [English](https://github.com/wellsluo/DeployVHD/blob/master/README.md) | [中文](https://github.com/wellsluo/DeployVHD/blob/master/README-CN.md)
 
-PowerShell script to deploy new VHD(X) file  from Windows Server/Desktop image file ISO/WIM, or edit existed VHD(X) file, and configure un-attend information.
+PowerShell script to deploy new VHD(X) file from Windows Server/Desktop image file ISO/WIM, or edit existed VHD(X) file, and configure un-attend information.
 
 ##Motivation
 
-Windows 10 insider program should be most popular program which attracts thousands of participants.  As Windows Server,  there is similar program like "Continuous Customer Engagement Program" for enterprise IT administrators.  The both programs will issue new product build ISO periodically, like weekly.  For each build, it will be time consuming for user to setup Windows Server/Windows Desktop from scratch, and so does for different editions.  
+"Windows 10 Insider" program should be most popular program which attracts thousands of participants.  As Windows Server,  there is similar program like "Continuous Customer Engagement Program" for enterprise IT administrators.  Both programs will issue new product build ISO periodically, like weekly.  For each build, it will be time consuming for user to setup Windows Server/Windows Desktop from scratch, and so does for different editions.  
 
 So I created the project to develop the PowerShell script, which can help user to deploy the new build to VHD(X) file very quickly and with un-attend features to lower down user tasks and time. 
 
@@ -13,6 +13,7 @@ So I created the project to develop the PowerShell script, which can help user t
 ##Objectives
 
 Agile and easy way to deploy VHD to physical server (NativeBoot) or VM from Windows Server/Desktop iteration builds with un-attend configurations.
+
 For a passionate user who frequently validates the Windows Server/Windows Desktop fresh builds, or IT administrator who needs to generate virtual disks with multiple editions of Windows Server/Windows Desktop, this script will help you out. 
 
 The script is also a pal of "Windows Server CCEP" program and "Windows 10 Insider" program participants.
@@ -54,13 +55,13 @@ So the following features are supported:
 - Physical Machine:
 	+ Use same computer name as current OS. 
 	+ Enable NativeBoot
-	+ Restart in 30 seconds after enabling NativeBoot
+		+ Restart in 30 seconds after enabling NativeBoot
 
 
 - Role installed:
 	+ Install Hyper-V role for Windows Server by default.
-	+ It can be disabled if Hyper-V server is not used or for virtual machines (Windows 10 1511 or above supports nested virtualization).
-	+ Provides test mode if you don't want to add the boot entry and restart physical machine.  
+	+ It can be disabled if Hyper-V server is not used or for virtual machines (Windows 10 1511 or above supports nested virtualization, Hyper-V role can run in virtual machine).
+		+ Provides test mode if you don't want to add the boot entry and restart physical machine.  
 
 - VHD(X) file can be used on both physical machine and Hyper-V virtual machine.
 
@@ -72,13 +73,13 @@ So the following features are supported:
 
  
 ##Supportability
-###VHD(X) OS
-You can generate the VHD(X) files from ISO with following OS versions:
+###VHD(X) OS 
+You can generate the VHD(X) files from ISO with following OS versions, x64 only:
 - Windows Server 2016 
 - Windows Server 2012 R2 
 - Windows 10
 - Windows 8.1 
-- Windows 7 (x86 only for GUID partition)
+- Windows 7 (only for MBR partition, no GUID partition for virtual machine)
  
 ###System Requirements
 You can run the script on following OS versions and PowerShell version:
@@ -93,51 +94,54 @@ Put the script and all other files under a folder. Run PowerShell command window
 ###EXAMPLE
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX -SourcePath D:\foo\install.wim 
+    .\Deploy-VHD.ps1 -SourcePath D:\ISO\Win2016.iso -CreateTemplate
 ```
 
-Create a 30GB dynamically expanding Datacenter edition VHDX in the current folder from D:\foo\install.wim. File name is WinServer2016.VHDX. 
+This command will create a 100GB dynamically-expanding VHDX containing the Datacenter SKU, and will be named as "WinServer2016.Hyper-V.100GB.GUID.VHDX" (name convension is "SourcePath.[Hyper-V].VHDSize.VHDPartitionStyle.VHDFormat"). Computer name will be generated randomly on first booting up. Default un-attend configurations are applied as following:
 
-Unattend.xml will be applied with default settings:
-- Computer Name:  Same as host
-- AutoLogon: Disabled
-- RemoteDesktop: Enabled
-- Firewall: Opened
-
+	- Computer Name:  Random name on first booting
+	- AutoLogon: Disabled
+	- RemoteDesktop: Enabled
+	- Firewall: Opened
 
 ###EXAMPLE
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX -SourcePath D:\foo\Win2016.iso 
+    .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX -SourcePath D:\ISO\Win2016.iso
 ```
 
-This command will parse the ISO file D:\foo\Win2016.iso and try to locate \sources\install.wim.  If that file is found, it will be used to create a dynamically-expanding 30GB VHDX containing the Datacenter SKU, and will be named WinServer2016.vhdx
-
-###EXAMPLE
-
-```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX -SourceVHD D:\foo\Win2016-Template.vhdx 
-```
-
-This command will use VHDX file D:\foo\Win2016-Template.vhdx and copy as WinServer2016.VHDX.
+This command will create a dynamically-expanding 100GB VHDX containing the Datacenter SKU, and will be named WinServer2016.vhdx
 Unattend.xml will be applied with default configurations:
-   Computer Name:  Same as host
-   AutoLogon: Disabled
-   RemoteDesktop: Enabled
-   Firewall: Opened
+
+	- Computer Name:  Same as host
+	- AutoLogon: Disabled
+	- RemoteDesktop: Enabled
+	- Firewall: Opened
+
 
 ###EXAMPLE
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX  
+    .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX -SourceVHD D:\VHDX\Win2016-Template.vhdx 
+```
+
+This command will use VHDX file D:\VHDX\Win2016-Template.vhdx and copy as WinServer2016.VHDX.
+Unattend.xml will be applied with default configurations.
+
+
+###EXAMPLE
+
+```PowerShell
+    .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX  
 ```
 
 This command will edit WinServer2016.VHDX directly with default un-attend configurations.
 
+
 ###EXAMPLE
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX  -ComputerName Test-01 -AutoLogon
+    .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX  -ComputerName Test-01 -AutoLogon
 ```
 
 This command will edit WinServer2016.VHDX, set the computer name to 'Test-01', and enable Autologon.
@@ -146,19 +150,10 @@ This command will edit WinServer2016.VHDX, set the computer name to 'Test-01', a
 ###EXAMPLE
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -VHDPath WinServer2016.VHDX  -EnableNativeBoot -Restart
+    .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX  -EnableNativeBoot -Restart
 ```
 
-This command will edit WinServer2016.VHDX file, and enable boot from VHD, then system restarts in 30 seconds. 
-
-###EXAMPLE
-
-```PowerShell
-    .\Deploy-VHD.ps1 -SourcePath D:\foo\Win2016.iso -CreateTemplate
-```
-
-This command will parse the ISO file D:\foo\Win2016.iso and try to locate \sources\install.wim.  If that file is found, it will be used to create a 300GB dynamically-expanding  VHDX containing the Datacenter SKU, and will be named WinServer2016-Template.vhdx. Computer name will be generated randomly on first booting up.
-
+This command will edit WinServer2016.VHDX file, and enable boot from VHD, then system will restart in 30 seconds. 
 
 
 ##Help
