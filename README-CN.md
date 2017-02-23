@@ -71,7 +71,7 @@ Windows 10 insider program 应该是吸引了成千上万用户、具有最广�
 ##可支持性
 
 ###VHD(X) 中的系统
-您可以从 ISO/WIM 镜像中生成以下操作系统版本：
+您可以从 ISO/WIM 镜像中生成以下操作系统的x64版本：
 - Windows Server 2016 
 - Windows Server 2012 R2 
 - Windows 10
@@ -94,10 +94,10 @@ Windows 10 insider program 应该是吸引了成千上万用户、具有最广�
 ------------ | ------------- | ------------
 Convert-WindowsImage.ps1 | 基础脚本 | 提供从镜像文件到 VHD(X) 文件的函数
 DeployVHD.ps1 | 主要脚本  | 
-Sample-BootFromNewVHD.ps1 | 示例脚本  | 用于在物理机中启用 Boot from VHD 功能
-Sample-Create-OSVHD.ps1 | 示例脚本  | 将 ISO 批量转换为 VHD(X) 模板文件
-unattend_amd64_Client.xml | 无人值守文件 | 桌面端版本
-unattend_amd64_Server.xml | 无人值守文件 | 服务器端版本
+Example-BootFromNewVHD.ps1 | 示例脚本  | 用于在物理机中启用 Boot from VHD 功能
+Example-Create-OSVHD.ps1 | 示例脚本  | 将 ISO 批量转换为 VHD(X) 模板文件
+unattend_amd64_Client.xml | 无人值守文件模板 | 桌面端版本
+unattend_amd64_Server.xml | 无人值守文件模板 | 服务器端版本
 
 
 ###示例
