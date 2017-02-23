@@ -107,7 +107,7 @@ unattend_amd64_Server.xml | Un-attend template | for Windows Server
 ###EXAMPLE
 
 ```PowerShell
-    .\Deploy-VHD.ps1 -SourcePath D:\ISO\Win2016.iso -CreateTemplate
+    .\Deploy-VHD.ps1 -SourcePath D:\ISO\Win2016.iso -CreateVHDTemplate
 ```
 
 This command will create a 100GB dynamically-expanding VHDX containing the Datacenter SKU, and will be named as "WinServer2016.Hyper-V.100GB.GUID.VHDX" (name convension is "SourcePath.[Hyper-V].VHDSize.VHDPartitionStyle.VHDFormat"). Computer name will be generated randomly on first booting up. Default un-attend configurations are applied as following:
