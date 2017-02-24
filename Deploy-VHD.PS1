@@ -260,8 +260,9 @@
 
         System restarts in 30 seconds. 
 
-    .OUTPUTS
-        System.IO.FileInfo
+    .LINK 
+    https://github.com/wellsluo/DeployVHD
+
   #>
 
 
