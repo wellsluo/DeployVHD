@@ -18,7 +18,7 @@ Windows 10 insider program 应该是吸引了成千上万用户、具有最广�
 
 
 ##授权
-此项目采用 MIT 授权协议，具体请参考 LICENSE.md 文件。
+此项目采用 MIT 授权协议，具体请参考 [LICENSE](https://github.com/wellsluo/DeployVHD/blob/master/LICENSE) 文件。
 
 ##特性
 通常来说，这个脚本适用于以下比较典型的场景：
@@ -63,7 +63,7 @@ Windows 10 insider program 应该是吸引了成千上万用户、具有最广�
 
 - 可以指定安装补丁文件或者驱动文件。
 
-*如果您还希望可以快速建立、管理多个相似功能的虚拟机并使用上述功能的 VHD(X) 文件的特性，比如建立一个演示的 Lab 系列虚拟机，我会建立另一个 PowerShell 脚本项目来完成，敬请期待.*
+*如果您还希望可以快速建立、管理多个相似功能的虚拟机并使用上述功能的 VHD(X) 文件的特性，比如建立一个演示的 Lab 系列虚拟机，请参考我的另一个 PowerShell 脚本项目：* **[ManageVM](https://github.com/wellsluo/ManageVM)**。
 
 **特别注意: 脚本中不会包括任何使用 Windows Server/Windows Desktop 的产品安装秘钥或者使用授权。如果必要，用户需要自己准备相应的授权来使用 Windows Server/Windows Desktop 系统，特别是在生产环境中使用。**
 
