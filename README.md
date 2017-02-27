@@ -20,7 +20,7 @@ The script is also a pal of "Windows Server CCEP" program and "Windows 10 Inside
 
 #License
 
-This project is licensed under the MIT License - see the LICENSE.md file for details
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/wellsluo/DeployVHD/blob/master/LICENSE) file for details.
 
 ##Features
 
@@ -67,7 +67,7 @@ So the following features are supported:
 
 - Apply update packages or drivers when generating the VHD(X) files.
 
-*If you also need features that to create multiple similar virtual machines very quickly, such as a demo lab, another PowerShell project will be created, stay tuned.*
+*If you also need features that to create multiple similar virtual machines very quickly, such as a demo lab, it is proviced in other PowerShell project. Please refer to* **[ManageVM](https://github.com/wellsluo/ManageVM)**.
 
 **Note: No any Windows Server/Windows Desktop product keys or licenses are included.  User needs to have your own licenses to use Windows Server/Windows Desktop in production environment.**
 
