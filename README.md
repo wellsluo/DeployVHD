@@ -4,6 +4,7 @@ README: [English](https://github.com/wellsluo/DeployVHD/blob/master/README.md) |
 PowerShell script to deploy new VHD(X) file from Windows Server/Desktop image file ISO/WIM, or edit existed VHD(X) file, and configure un-attend information.
 
 <!-- TOC -->
+
 - [DeployVHD](#deployvhd)
     - [Motivation](#motivation)
     - [Objectives](#objectives)
@@ -13,12 +14,12 @@ PowerShell script to deploy new VHD(X) file from Windows Server/Desktop image fi
         - [VHD(X) OS](#vhdx-os)
         - [System Requirements](#system-requirements)
     - [Usage](#usage)
-        - [EXAMPLE](#example)
-        - [EXAMPLE](#example-1)
-        - [EXAMPLE](#example-2)
-        - [EXAMPLE](#example-3)
-        - [EXAMPLE](#example-4)
-        - [EXAMPLE](#example-5)
+        - [EXAMPLE1](#example1)
+        - [EXAMPLE2](#example2)
+        - [EXAMPLE3](#example3)
+        - [EXAMPLE4](#example4)
+        - [EXAMPLE5](#example5)
+        - [EXAMPLE6](#example6)
     - [Help](#help)
     - [Dependency](#dependency)
 
@@ -125,7 +126,7 @@ unattend_amd64_Server.xml | Un-attend template | for Windows Server
 
 
 
-### EXAMPLE
+### EXAMPLE1
 
 ```PowerShell
     .\Deploy-VHD.ps1 -SourcePath D:\ISO\Win2016.iso -CreateVHDTemplate
@@ -138,7 +139,7 @@ This command will create a 100GB dynamically-expanding VHDX containing the Datac
 	- RemoteDesktop:  Enabled
 	- Firewall:       Opened
 
-### EXAMPLE
+### EXAMPLE2
 
 ```PowerShell
     .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX -SourcePath D:\ISO\Win2016.iso
@@ -153,7 +154,7 @@ Unattend.xml will be applied with default configurations:
 	- Firewall:       Opened
 
 
-### EXAMPLE
+### EXAMPLE3
 
 ```PowerShell
     .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX -SourceVHD D:\VHDX\Win2016-Template.vhdx 
@@ -163,7 +164,7 @@ This command will use VHDX file D:\VHDX\Win2016-Template.vhdx and copy as WinSer
 Unattend.xml will be applied with default configurations.
 
 
-### EXAMPLE
+### EXAMPLE4
 
 ```PowerShell
     .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX  
@@ -172,7 +173,7 @@ Unattend.xml will be applied with default configurations.
 This command will edit WinServer2016.VHDX directly with default un-attend configurations.
 
 
-### EXAMPLE
+### EXAMPLE5
 
 ```PowerShell
     .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX  -ComputerName Test-01 -AutoLogon
@@ -181,7 +182,7 @@ This command will edit WinServer2016.VHDX directly with default un-attend config
 This command will edit WinServer2016.VHDX, set the computer name to 'Test-01', and enable Autologon.
 
 
-### EXAMPLE
+### EXAMPLE6
 
 ```PowerShell
     .\Deploy-VHD.ps1 -VHDPath .\WinServer2016.VHDX  -EnableNativeBoot -Restart
