@@ -35,7 +35,6 @@ Windows 10 insider program 应该是吸引了成千上万用户、具有最广�
 
 
 ## 目标
-=======
 
 敏捷且方便地将新的 Windows Server/Windows Desktop 迭代 build 部署到物理计算机或者虚拟机中，并在 Windows 首次启动的时候无需手工干预。
 
