@@ -20,7 +20,7 @@
 # SOFTWARE.
 #
 #
-# SCRIPT_VERSION: 2.0.100.Main.20170218.1015.0.Release
+# SCRIPT_VERSION: 2.0.102.Main.20180418.2137.0.RC
 #
 
 
@@ -785,13 +785,27 @@ function EnableNativeBoot
     
     #mount VHD as drive. The cmdlet "Mount-VHD" needs Hyper-V role, it cannot be used to anywhere. 
     #So it is deprecated since it needs Hyper-V to be installed. 
-    $VHDVolume = (Mount-DiskImage -ImagePath $VHDPath -PassThru | Get-DiskImage | Get-Disk | Get-Partition| Get-Volume)
-    
-    $VHDMountDrive = $VHDVolume.DriveLetter + ":"
+
+    # Convert-WindowsImage.PS1 create 3 paritions when creating new VHD:
+    #
+    #       Size Type
+    #       ---- ----
+    #     128 MB Reserved
+    #     100 MB System
+    #     99.78 GB Basic
+    # Note: the size of "Basic" is assumed to be 100G.
+    #
+    # When mounting the VHD disk, the "System" partition may also be mounted and assgined drive letter. 
+    # In this case, the "System" partition will be the first drive and "Basic" partition will be second drive.
+    # Update the code to get only the "Basic" partition and get the drive letter. 
+
+    $VHDDisk = (Mount-DiskImage -ImagePath $VHDPath -PassThru | Get-DiskImage | Get-Disk)
+    $VHDWinPartition = Get-Partition -Disk $VHDDisk | Where-Object {$_.Type -eq "Basic"}
+    $VHDMountDrive =  $VHDWinPartition.AccessPaths[0]
     Write-Message "Trace"  ("VHD(X) was mounted to drive $($VHDMountDrive).")
 
     #run BCDBoot to add the VHD to system boot ment
-    $CommandNativeBoot = "BCDBOOT  $VHDMountDrive\Windows"
+    $CommandNativeBoot = "BCDBOOT  $($VHDMountDrive)Windows"
     Write-Message "Trace" ("Running command: $($CommandNativeBoot) ...")
     If ($TestMode)
     {
@@ -1019,7 +1033,7 @@ function Stop-ScriptLog ($isTranscripting) {
 
 #Declare constant 
 
-Set-Variable -Name SCRIPT_VERSION -Value "2.0.100.Main.20170218.1015.0.Release" -Option Constant
+Set-Variable -Name SCRIPT_VERSION -Value "2.0.102.Main.20180418.2137.0.RC" -Option Constant
 Set-Variable -Name ScriptName -Value $MyInvocation.MyCommand.Name  -Option Constant
 
 #unattend
