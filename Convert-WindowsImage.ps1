@@ -4213,11 +4213,15 @@ format fs=fat32 label="System"
                         {
 
                             $partitionSystem | Add-PartitionAccessPath -AssignDriveLetter
-                            $driveSystem     = $(Get-Partition -Disk $disk).AccessPaths[1]
+                            # update the code by Wei Luo @ 20180414. Fix a bug. 
+                            #$driveSystem     = $(Get-Partition -Disk $disk).AccessPaths[1]
+                            $driveSystem     = $(Get-Partition -DiskNumber $disk.Number -PartitionNumber $partitionSystem.PartitionNumber).AccessPaths[0] 
                             Write-W2VInfo "Access path ($driveSystem) has been assigned to the System Volume..."
 
                             $partition       | Add-PartitionAccessPath -AssignDriveLetter
-                            $drive           = $(Get-Partition -Disk $disk).AccessPaths[2]
+                            # update the code by Wei Luo @ 20180414. Fix a bug. 
+                            #$drive           = $(Get-Partition -Disk $disk).AccessPaths[2]
+                            $drive          = $(Get-Partition -DiskNumber $disk.Number -PartitionNumber $partition.PartitionNumber).AccessPaths[0]
                             Write-W2VInfo "Access path ($drive) has been assigned to the Boot Volume..."
                         }
                         ElseIf
